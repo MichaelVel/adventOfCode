@@ -8,14 +8,14 @@ pub mod day4;
 pub mod day5;
 
 fn main() -> std::io::Result<()> {
-    let mut file = File::open("./data/day4.txt")?;
+    let mut file = File::open("./data/day5.txt")?;
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
 
-    let result = day4::solution1(&contents);
+    let result = day5::solution1(&contents);
     println!("The result is: {result}");
 
-    let result2 = day4::solution2(&contents);
+    let result2 = day5::solution2(&contents);
     println!("The second part result is: {result2}");
     Ok(())
 }
