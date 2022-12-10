@@ -80,7 +80,8 @@ mod tests {
         
         assert_eq!(solution1(&data),result);
     }
-
+    
+    #[ignore]
     #[test]
     fn test_data_example2() {
         let data = String::from(
