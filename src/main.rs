@@ -11,16 +11,31 @@ pub mod day7;
 pub mod day8;
 pub mod day9;
 pub mod day10;
+pub mod day11;
+pub mod day12;
+pub mod day13;
+pub mod day14;
+pub mod day15;
+pub mod day16;
+pub mod day17;
+pub mod day18;
+pub mod day19;
+pub mod day20;
+pub mod day21;
+pub mod day22;
+pub mod day23;
+pub mod day24;
+pub mod day25;
 
 fn main() -> std::io::Result<()> {
-    let mut file = File::open("./data/day10.txt")?;
+    let mut file = File::open("./data/day11.txt")?;
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
 
-    let result = day10::solution1(&contents);
+    let result = day11::solution1(&contents);
     println!("The result is: {result}");
 
-    //let result2 = day10::solution2(&contents);
+    //let result2 = day11::solution2(&contents);
     //println!("The second part result is: {result2}");
     day10::solution2(&contents);
     Ok(())
