@@ -37,6 +37,5 @@ fn main() -> std::io::Result<()> {
 
     //let result2 = day11::solution2(&contents);
     //println!("The second part result is: {result2}");
-    day10::solution2(&contents);
     Ok(())
 }
