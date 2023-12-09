@@ -355,25 +355,47 @@ XXX = (XXX, XXX)`,
 }
 
 func TestDay9(t *testing.T) {
-	input := ``
-
-	expected := ""
-	result := defaultFunction(input)
-
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `0 3 6 9 12 15
+1 3 6 10 15 21
+10 13 16 21 30 45`,
+			expected: "114",
+		},
 	}
+
+	for _, tst := range inputTests {
+		result := day9(tst.input)
+		if result != tst.expected {
+			t.Errorf("Failed. expected=%s got=%s", tst.expected, result)
+		}
+	}
+
 }
 
 func TestDay9Ext(t *testing.T) {
-	input := ``
-
-	expected := ""
-	result := defaultFunction(input)
-
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `0 3 6 9 12 15
+1 3 6 10 15 21
+10 13 16 21 30 45`,
+			expected: "2",
+		},
 	}
+
+	for _, tst := range inputTests {
+		result := day9Ext(tst.input)
+		if result != tst.expected {
+			t.Errorf("Failed. expected=%s got=%s", tst.expected, result)
+		}
+	}
+
 }
 
 func TestDay10(t *testing.T) {
