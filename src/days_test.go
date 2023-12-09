@@ -292,24 +292,65 @@ QQQJA 483`
 }
 
 func TestDay8(t *testing.T) {
-	input := ``
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `RL
 
-	expected := ""
-	result := defaultFunction(input)
+AAA = (BBB, CCC)
+BBB = (DDD, EEE)
+CCC = (ZZZ, GGG)
+DDD = (DDD, DDD)
+EEE = (EEE, EEE)
+GGG = (GGG, GGG)
+ZZZ = (ZZZ, ZZZ)`,
+			expected: "2",
+		},
+		{
+			input: `LLR
 
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+AAA = (BBB, BBB)
+BBB = (AAA, ZZZ)
+ZZZ = (ZZZ, ZZZ)`,
+			expected: "6",
+		},
+	}
+
+	for _, tst := range inputTests {
+		result := day8(tst.input)
+		if result != tst.expected {
+			t.Fatalf("Failed. expected=%s got=%s", tst.expected, result)
+		}
 	}
 }
 
 func TestDay8Ext(t *testing.T) {
-	input := ``
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `LR
 
-	expected := ""
-	result := defaultFunction(input)
+11A = (11B, XXX)
+11B = (XXX, 11Z)
+11Z = (11B, XXX)
+22A = (22B, XXX)
+22B = (22C, 22C)
+22C = (22Z, 22Z)
+22Z = (22B, 22B)
+XXX = (XXX, XXX)`,
+			expected: "6",
+		},
+	}
 
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+	for _, tst := range inputTests {
+		result := day8Ext(tst.input)
+		if result != tst.expected {
+			t.Errorf("Failed. expected=%s got=%s", tst.expected, result)
+		}
 	}
 }
 
