@@ -11,6 +11,7 @@ type Strength int
 
 const (
 	_ Strength = iota
+	JOKER
 	TWO
 	THREE
 	FOUR
@@ -53,6 +54,7 @@ var strengths = map[string]Strength{
 	"4": FOUR,
 	"3": THREE,
 	"2": TWO,
+	"X": JOKER,
 }
 
 type Hand struct {
@@ -76,11 +78,19 @@ func (h *Hand) _type() HandType {
 		}
 	}
 
+	jokerCount := counts["X"]
 	switch len(counts) {
 	case 1:
 		return FIVEKIND
 	case 2:
 		for _, v := range counts {
+			if v == 4 && jokerCount == 1 ||
+				v == 3 && jokerCount == 2 ||
+				v == 2 && jokerCount == 3 ||
+				jokerCount == 4 {
+				return FIVEKIND
+			}
+
 			if v == 4 {
 				return FOURKIND
 			}
@@ -93,13 +103,30 @@ func (h *Hand) _type() HandType {
 				pairs++
 			}
 		}
+		if pairs == 2 && jokerCount == 2 ||
+			jokerCount == 3 ||
+			pairs == 0 && jokerCount == 1 {
+			return FOURKIND
+		}
+
+		if pairs == 2 && jokerCount == 1 {
+			return FULLHOUSE
+		}
+
 		if pairs == 2 {
 			return TWOPAIR
 		}
+
 		return THREEKIND
 	case 4:
+		if jokerCount == 1 || jokerCount == 2 {
+			return THREEKIND
+		}
 		return ONEPAIR
 	default:
+		if jokerCount == 1 {
+			return ONEPAIR
+		}
 		return HIGHCARD
 	}
 }
@@ -152,13 +179,25 @@ func day7(input string) string {
 }
 
 func day7Ext(input string) string {
+	input = strings.ReplaceAll(input, "J", "X")
 	scanner := bufio.NewScanner(strings.NewReader(input))
-	sum := 0
 
+	hands := []Hand{}
 	for scanner.Scan() {
 		line := scanner.Text()
-		sum += parseNumberFromLine(line, false)
+		hands = append(hands, *newHand(line))
+	}
+
+	sort.Slice(hands, func(i, j int) bool {
+		return hands[i].less(&hands[j])
+	})
+
+	sum := 0
+
+	for i, hand := range hands {
+		sum += (i + 1) * hand.bid
 	}
 
 	return fmt.Sprintf("%v", sum)
+
 }

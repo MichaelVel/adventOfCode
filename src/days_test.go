@@ -246,48 +246,97 @@ Distance:  9  40  200
 }
 
 func TestDay7(t *testing.T) {
-	// 	input := `2345A 1
-	// Q2KJJ 13
-	// Q2Q2Q 19
-	// T3T3J 17
-	// T3Q33 11
-	// 2345J 3
-	// J345A 2
-	// 32T3K 5
-	// T55J5 29
-	// KK677 7
-	// KTJJT 34
-	// QQQJA 31
-	// JJJJJ 37
-	// JAAAA 43
-	// AAAAJ 59
-	// AAAAA 61
-	// 2AAAA 23
-	// 2JJJJ 53
-	// JJJJ2 41` // 6592
-	input := `2JJJJ 50
-JJJJ2 10 ` // 70
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `2345A 1
+Q2KJJ 13
+Q2Q2Q 19
+T3T3J 17
+T3Q33 11
+2345J 3
+J345A 2
+32T3K 5
+T55J5 29
+KK677 7
+KTJJT 34
+QQQJA 31
+JJJJJ 37
+JAAAA 43
+AAAAJ 59
+AAAAA 61
+2AAAA 23
+2JJJJ 53
+JJJJ2 41`,
+			expected: "6592",
+		},
+		{
+			input: `2JJJJ 50
+JJJJ2 10`,
+			expected: "70",
+		},
+		{
+			input: `32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483`,
+			expected: "6440",
+		},
+	}
 
-	expected := "70"
-	result := day7(input)
-
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+	for _, tst := range inputTests {
+		result := day7(tst.input)
+		if result != tst.expected {
+			t.Fatalf("Failed. expected=%s got=%s", tst.expected, result)
+		}
 	}
 }
 
 func TestDay7Ext(t *testing.T) {
-	input := `32T3K 765
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `2345A 1
+Q2KJJ 13
+Q2Q2Q 19
+T3T3J 17
+T3Q33 11
+2345J 3
+J345A 2
+32T3K 5
+T55J5 29
+KK677 7
+KTJJT 34
+QQQJA 31
+JJJJJ 37
+JAAAA 43
+AAAAJ 59
+AAAAA 61
+2AAAA 23
+2JJJJ 53
+JJJJ2 41`,
+			expected: "6839",
+		},
+		{
+			input: `32T3K 765
 T55J5 684
 KK677 28
 KTJJT 220
-QQQJA 483`
+QQQJA 483`,
+			expected: "5905",
+		},
+	}
 
-	expected := ""
-	result := defaultFunction(input)
-
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+	for _, tst := range inputTests {
+		result := day7Ext(tst.input)
+		if result != tst.expected {
+			t.Fatalf("Failed. expected=%s got=%s", tst.expected, result)
+		}
 	}
 }
 
