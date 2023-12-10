@@ -12,6 +12,19 @@ type Coord struct {
 	x, y int
 }
 
+func (c *Coord) adjacentCoords() []Coord {
+	return []Coord{
+		Coord{c.x - 1, c.y - 1},
+		Coord{c.x - 1, c.y},
+		Coord{c.x - 1, c.y + 1},
+		Coord{c.x, c.y - 1},
+		Coord{c.x, c.y + 1},
+		Coord{c.x + 1, c.y - 1},
+		Coord{c.x + 1, c.y},
+		Coord{c.x + 1, c.y + 1},
+	}
+}
+
 type Number struct {
 	value int
 	pairs []Coord
@@ -20,30 +33,70 @@ type Number struct {
 func (n *Number) adjacentCoords() []Coord {
 	adjacents := []Coord{}
 	for _, pair := range n.pairs {
-		adjacents = append(adjacents, Coord{pair.x - 1, pair.y - 1})
-		adjacents = append(adjacents, Coord{pair.x - 1, pair.y})
-		adjacents = append(adjacents, Coord{pair.x - 1, pair.y + 1})
-		adjacents = append(adjacents, Coord{pair.x, pair.y - 1})
-		adjacents = append(adjacents, Coord{pair.x, pair.y + 1})
-		adjacents = append(adjacents, Coord{pair.x + 1, pair.y - 1})
-		adjacents = append(adjacents, Coord{pair.x + 1, pair.y})
-		adjacents = append(adjacents, Coord{pair.x + 1, pair.y + 1})
+		adjacents = append(adjacents, pair.adjacentCoords()...)
 	}
 
 	return adjacents
 }
 
+func (n *Number) coordInRange(c Coord) bool {
+	for _, innerCord := range n.pairs {
+		if c == innerCord {
+			return true
+		}
+	}
+	return false
+}
+
+func (n *Number) String() string {
+	// Simple hack to hash the type, given that the coords of the number
+	// always are unique.
+	return fmt.Sprintf("%v", n.pairs)
+}
+
+type Symbol struct {
+	value byte
+	Coord
+}
+
+func (s *Symbol) gearRatio(nums []Number) (int, bool) {
+	if s.value != '*' {
+		return 0, false
+	}
+	adjacentNumbers := map[string]int{}
+	for _, coord := range s.adjacentCoords() {
+		for _, num := range nums {
+			_, present := adjacentNumbers[num.String()]
+			if num.coordInRange(coord) && !present {
+				adjacentNumbers[num.String()] = num.value
+			}
+		}
+	}
+
+	if len(adjacentNumbers) != 2 {
+		return 0, false
+	}
+
+	ratio := 1
+	for _, val := range adjacentNumbers {
+		ratio *= val
+	}
+
+	return ratio, true
+
+}
+
 type Engine struct {
 	raw     []string
 	numbers []Number
-	symbols []Coord
+	symbols []Symbol
 }
 
 func newEngine(input string) *Engine {
 	engine := &Engine{
 		raw:     []string{},
 		numbers: []Number{},
-		symbols: []Coord{},
+		symbols: []Symbol{},
 	}
 
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -68,7 +121,7 @@ func newEngine(input string) *Engine {
 }
 
 func (e *Engine) addSymbol(x, y int) {
-	e.symbols = append(e.symbols, Coord{x, y})
+	e.symbols = append(e.symbols, Symbol{e.raw[y][x], Coord{x, y}})
 
 }
 
@@ -103,9 +156,21 @@ func (e *Engine) partNumbers() []Number {
 	return arr
 }
 
+func (e *Engine) gearsRatios() int {
+	sumRatios := 0
+	partNums := e.partNumbers()
+	for _, s := range e.symbols {
+		if ratio, ok := s.gearRatio(partNums); ok {
+			sumRatios += ratio
+		}
+	}
+	return sumRatios
+}
+
 func (e *Engine) isNumberAdjacentToSymbol(num Number) bool {
+	coords := Map(e.symbols, func(s Symbol) Coord { return s.Coord })
 	for _, adjacent := range num.adjacentCoords() {
-		if slices.Contains(e.symbols, adjacent) {
+		if slices.Contains(coords, adjacent) {
 			return true
 		}
 	}
@@ -120,6 +185,11 @@ func day3(input string) string {
 	}
 
 	return fmt.Sprintf("%v", sum)
+}
+
+func day3Ext(input string) string {
+	engine := newEngine(input)
+	return fmt.Sprintf("%v", engine.gearsRatios())
 }
 
 func isSymbol(ch byte) bool {

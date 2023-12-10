@@ -82,7 +82,6 @@ func TestDay3(t *testing.T) {
 .....*1000`
 
 	expected := "5361"
-	// expected := "4461"
 	result := day3(input)
 
 	if result != expected {
@@ -91,10 +90,21 @@ func TestDay3(t *testing.T) {
 }
 
 func TestDay3Ext(t *testing.T) {
-	input := ``
+	input := `467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
+..........
+.....*1000`
 
-	expected := ""
-	result := defaultFunction(input)
+	expected := "467835"
+	result := day3Ext(input)
 
 	if result != expected {
 		t.Fatalf("Failed. expected=%s got=%s", expected, result)

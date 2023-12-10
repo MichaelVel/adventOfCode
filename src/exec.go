@@ -32,6 +32,7 @@ var Solutions = map[string]SolutionFunc{
 	"2":    day2,
 	"2ext": day2Ext,
 	"3":    day3,
+	"3ext": day3Ext,
 	"4":    day4,
 	"4ext": day4Ext,
 	"5":    day5,
