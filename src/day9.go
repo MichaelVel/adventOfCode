@@ -12,7 +12,7 @@ func nextNumber(numbers []int) int {
 		last = numbers[l-1]
 	}
 
-	if allEqual(numbers) {
+	if AllEqual(numbers) {
 		return last
 	}
 
@@ -30,7 +30,7 @@ func prevNumber(numbers []int) int {
 		first = numbers[0]
 	}
 
-	if allEqual(numbers) {
+	if AllEqual(numbers) {
 		return first
 	}
 
@@ -68,13 +68,4 @@ func day9Ext(input string) string {
 	}
 
 	return fmt.Sprintf("%v", sum)
-}
-
-func allEqual[T comparable](arr []T) bool {
-	for _, v := range arr {
-		if v != arr[0] {
-			return false
-		}
-	}
-	return true
 }

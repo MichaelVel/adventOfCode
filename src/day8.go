@@ -102,19 +102,3 @@ func day8Ext(input string) string {
 
 	return fmt.Sprintf("%v", steps)
 }
-
-func GCD(a, b int) int {
-	for b != 0 {
-		t := b
-		b = a % b
-		a = t
-	}
-	return a
-}
-func LCM(integers ...int) int {
-	result := 1
-	for _, i := range integers {
-		result = result * i / GCD(result, i)
-	}
-	return result
-}

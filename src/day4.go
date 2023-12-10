@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math"
 	"slices"
-	"strconv"
 	"strings"
 )
 
@@ -94,19 +93,4 @@ func day4Ext(input string) string {
 	}
 
 	return fmt.Sprintf("%v", sum)
-}
-
-func Map[I any, O any](vs []I, f func(I) O) []O {
-	vsm := make([]O, len(vs))
-	for i, v := range vs {
-		vsm[i] = f(v)
-	}
-	return vsm
-}
-
-func parseInt(val string) int {
-	if number, err := strconv.ParseInt(val, 10, 64); err == nil {
-		return int(number)
-	}
-	return 0
 }
