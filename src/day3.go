@@ -25,6 +25,15 @@ func (c *Coord) adjacentCoords() []Coord {
 	}
 }
 
+func (c *Coord) crossCoords() []Coord {
+	return []Coord{
+		Coord{c.x - 1, c.y},
+		Coord{c.x, c.y - 1},
+		Coord{c.x, c.y + 1},
+		Coord{c.x + 1, c.y},
+	}
+}
+
 type Number struct {
 	value int
 	pairs []Coord

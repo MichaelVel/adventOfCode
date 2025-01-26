@@ -458,13 +458,34 @@ func TestDay9Ext(t *testing.T) {
 }
 
 func TestDay10(t *testing.T) {
-	input := ``
+	inputTests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			input: `.....
+.S-7.
+.|.|.
+.L-J.
+.....
+`,
+			expected: "4",
+		},
+		{
+			input: `..F7.
+.FJ|.
+SJ.L7
+|F--J
+LJ...`,
+			expected: "8",
+		},
+	}
 
-	expected := ""
-	result := defaultFunction(input)
-
-	if result != expected {
-		t.Fatalf("Failed. expected=%s got=%s", expected, result)
+	for _, tst := range inputTests {
+		result := day10(tst.input)
+		if result != tst.expected {
+			t.Errorf("Failed. expected=%s got=%s", tst.expected, result)
+		}
 	}
 }
 

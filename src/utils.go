@@ -10,6 +10,23 @@ func Map[I any, O any](vs []I, f func(I) O) []O {
 	return vsm
 }
 
+func Filter[T any](arr []T, f func(T) bool) []T {
+	newArr := []T{}
+	for _, elem := range arr {
+		if f(elem) {
+			newArr = append(newArr, elem)
+		}
+	}
+	return newArr
+}
+
+func IfElse[T any](test bool, t, f T) T {
+	if test {
+		return t
+	}
+	return f
+}
+
 func parseInt(val string) int {
 	if number, err := strconv.ParseInt(val, 10, 64); err == nil {
 		return int(number)
